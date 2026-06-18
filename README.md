@@ -1,9 +1,5 @@
 # Crypto Risk Guardian AI
 
-## Live Demo
-MuleRun Demo:
-https://jqxpgrfd.mule.page/
-
 ## Overview
 Crypto Risk Guardian AI is an AI-powered risk intelligence platform that helps crypto traders identify liquidation risk, leverage exposure, portfolio weaknesses, and market threats before entering trades.
 
@@ -97,7 +93,21 @@ python3 scripts/publish.py ./deploy \
   --port 3000
 ```
 
-## Demo
+## Demo Video
+
+Watch Crypto Risk Guardian AI in action:
+
+X Demo Video:
+https://x.com/i/status/2067549153761403123
+
+The demo showcases:
+- Portfolio Risk Analysis
+- Liquidation Risk Simulation
+- Leverage Exposure Detection
+- Correlation Analysis
+- AI-Powered Risk Recommendations
+- Real-Time Market Dashboard
+
 **Public Demo URL:** https://jqxpgrfd.mule.page/
 
 The demo is live with real-time data from Binance and Alternative.me. All metrics update automatically every 3 seconds.
