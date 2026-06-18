@@ -7,6 +7,12 @@ https://jqxpgrfd.mule.page/
 ## Overview
 Crypto Risk Guardian AI is an AI-powered risk intelligence platform that helps crypto traders identify liquidation risk, leverage exposure, portfolio weaknesses, and market threats before entering trades.
 
+## Why This Matters
+
+Most crypto traders focus on finding winning trades but lack tools that explain portfolio risk in a simple and actionable way.
+
+Crypto Risk Guardian AI helps traders identify liquidation threats, leverage exposure, concentration risk, and market danger before losses happen, enabling smarter and safer trading decisions.
+
 ## Problem Statement
 Many crypto traders focus on profits while ignoring risk. Excessive leverage, poor position sizing, and concentrated portfolios often lead to avoidable losses and liquidations.
 
