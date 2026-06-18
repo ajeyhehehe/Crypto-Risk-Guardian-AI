@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crypto Risk Guardian AI — AI-Powered Risk Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg-primary:#06080d;--bg-secondary:#0a0e17;--bg-card:rgba(12,17,28,0.85);
+  --glass:rgba(255,255,255,0.03);--glass-border:rgba(255,255,255,0.06);
+  --text-primary:#e8ecf4;--text-secondary:#8892a4;--text-muted:#4a5568;
+  --accent:#00d4aa;--accent-glow:rgba(0,212,170,0.15);
+  --danger:#ff4757;--danger-glow:rgba(255,71,87,0.15);
+  --warning:#ffa502;--warning-glow:rgba(255,165,2,0.15);
+  --info:#3b82f6;--info-glow:rgba(59,130,246,0.15);
+  --radius:16px;--radius-sm:10px;--radius-xs:6px;
+  --font-display:'Outfit',sans-serif;--font-mono:'JetBrains Mono',monospace;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:var(--font-display);background:var(--bg-primary);color:var(--text-primary);
+  line-height:1.6;overflow-x:hidden;min-height:100vh}
+body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;
+  background:radial-gradient(ellipse 80% 50% at 50% -20%,rgba(0,212,170,0.06),transparent),
+  radial-gradient(ellipse 60% 40% at 80% 50%,rgba(59,130,246,0.04),transparent),
+  radial-gradient(ellipse 60% 40% at 20% 80%,rgba(255,71,87,0.03),transparent);
+  pointer-events:none;z-index:0}
+::selection{background:var(--accent);color:var(--bg-primary)}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg-primary)}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:3px}
+
+.container{max-width:1320px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+a{color:var(--accent);text-decoration:none}
+
+.glass{background:var(--bg-card);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border:1px solid var(--glass-border);border-radius:var(--radius);
+  box-shadow:0 8px 32px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.04);
+  transition:all 0.3s ease}
+.glass:hover{border-color:rgba(255,255,255,0.08);box-shadow:0 12px 40px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.06)}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 0;
+  background:rgba(6,8,13,0.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--glass-border)}
+nav .container{display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:12px;font-weight:700;font-size:1.1rem;letter-spacing:-0.02em}
+.logo-icon{width:36px;height:36px;border-radius:10px;
+  background:linear-gradient(135deg,var(--accent),#0088ff);display:flex;align-items:center;justify-content:center;
+  font-size:18px;font-weight:800;color:var(--bg-primary)}
+.nav-links{display:flex;gap:8px}
+.nav-links a{padding:8px 16px;border-radius:var(--radius-xs);font-size:0.85rem;font-weight:500;
+  color:var(--text-secondary);transition:all .2s}
+.nav-links a:hover{color:var(--text-primary);background:var(--glass)}
+.nav-links a.active{color:var(--accent);background:var(--accent-glow)}
+.mobile-menu-btn{display:none;background:none;border:none;color:var(--text-primary);font-size:1.5rem;cursor:pointer}
+
+.hero{padding:130px 0 70px;text-align:center;position:relative;animation:fadeInUp 0.8s ease}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 18px;
+  border-radius:20px;background:var(--accent-glow);border:1px solid rgba(0,212,170,0.2);
+  font-size:0.78rem;font-weight:600;color:var(--accent);margin-bottom:28px;
+  font-family:var(--font-mono);letter-spacing:0.05em;text-transform:uppercase;
+  animation:fadeInUp 0.8s ease 0.1s both}
+.hero-badge .pulse{width:8px;height:8px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.3)}}
+.hero h1{font-size:clamp(2.4rem,5vw,4rem);font-weight:800;line-height:1.1;
+  letter-spacing:-0.03em;margin-bottom:24px;
+  background:linear-gradient(135deg,#fff 0%,#c8d6e5 40%,var(--accent) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:fadeInUp 0.8s ease 0.2s both}
+.hero p{font-size:clamp(1rem,2vw,1.2rem);color:var(--text-secondary);max-width:720px;
+  margin:0 auto 48px;line-height:1.7;animation:fadeInUp 0.8s ease 0.3s both}
+
+.metrics-row{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:48px;
+  animation:fadeInUp 0.8s ease 0.4s both}
+.metric-card{padding:24px;text-align:center;position:relative;overflow:hidden;cursor:default}
+.metric-card:hover{transform:translateY(-4px)}
+.metric-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0.5;transition:opacity 0.3s}
+.metric-card:hover::before{opacity:1}
+.metric-card.danger::before{background:linear-gradient(90deg,transparent,var(--danger),transparent)}
+.metric-card.warning::before{background:linear-gradient(90deg,transparent,var(--warning),transparent)}
+.metric-label{font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;
+  color:var(--text-muted);margin-bottom:10px;font-family:var(--font-mono)}
+.metric-value{font-size:1.7rem;font-weight:700;font-family:var(--font-mono);letter-spacing:-0.02em}
+.metric-value.green{color:var(--accent)}
+.metric-value.red{color:var(--danger)}
+.metric-value.yellow{color:var(--warning)}
+.metric-sub{font-size:0.78rem;color:var(--text-secondary);margin-top:6px}
+
+.section{padding:70px 0}
+.section-header{margin-bottom:36px}
+.section-header h2{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;letter-spacing:-0.02em;margin-bottom:10px}
+.section-header p{color:var(--text-secondary);font-size:0.95rem;max-width:640px;line-height:1.7}
+.section-tag{font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;
+  color:var(--accent);margin-bottom:10px;font-family:var(--font-mono)}
+
+.form-row{display:grid;grid-template-columns:140px 1fr 1fr 100px 120px 40px;gap:12px;align-items:end}
+.form-group{display:flex;flex-direction:column;gap:5px}
+.form-group label{font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;
+  color:var(--text-muted);font-family:var(--font-mono)}
+.form-group input,.form-group select{background:rgba(255,255,255,0.04);border:1px solid var(--glass-border);
+  border-radius:var(--radius-xs);padding:11px 13px;color:var(--text-primary);font-size:0.9rem;
+  font-family:var(--font-mono);transition:all .2s;outline:none}
+.form-group input:focus,.form-group select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
+.form-group select{cursor:pointer;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%238892a4' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 12px center}
+.form-group select option{background:var(--bg-secondary);color:var(--text-primary)}
+
+.btn{padding:11px 22px;border-radius:var(--radius-xs);font-size:0.88rem;font-weight:600;
+  cursor:pointer;transition:all .2s;border:none;font-family:var(--font-display);position:relative;overflow:hidden}
+.btn::after{content:'';position:absolute;top:50%;left:50%;width:0;height:0;border-radius:50%;
+  background:rgba(255,255,255,0.2);transform:translate(-50%,-50%);transition:width 0.4s,height 0.4s}
+.btn:active::after{width:200px;height:200px}
+.btn-primary{background:linear-gradient(135deg,var(--accent),#00b894);color:var(--bg-primary);
+  box-shadow:0 4px 15px rgba(0,212,170,0.2)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 25px rgba(0,212,170,0.3)}
+.btn-ghost{background:var(--glass);color:var(--text-secondary);border:1px solid var(--glass-border)}
+.btn-ghost:hover{color:var(--text-primary);border-color:rgba(255,255,255,0.15);background:rgba(255,255,255,0.05)}
+
+.position-row{display:grid;grid-template-columns:140px 1fr 1fr 100px 120px 40px;gap:12px;
+  padding:12px;background:var(--glass);border-radius:var(--radius-sm);align-items:end;
+  animation:slideIn .3s ease;margin-bottom:10px}
+@keyframes slideIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+.remove-pos{background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:1.3rem;
+  padding:11px 0;text-align:center;transition:color .2s}
+.remove-pos:hover{color:var(--danger)}
+.form-actions{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap}
+
+.risk-display{display:grid;grid-template-columns:280px 1fr;gap:28px}
+.risk-gauge{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:32px;min-height:300px}
+.gauge-circle{position:relative;width:210px;height:210px}
+.gauge-circle svg{width:210px;height:210px;transform:rotate(-90deg)}
+.gauge-circle .bg{fill:none;stroke:rgba(255,255,255,0.05);stroke-width:12}
+.gauge-circle .fg{fill:none;stroke-width:12;stroke-linecap:round;transition:stroke-dashoffset 1s ease,stroke 0.5s ease}
+.gauge-value{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
+.gauge-value .score{font-size:3.2rem;font-weight:800;font-family:var(--font-mono);line-height:1}
+.gauge-value .label{font-size:0.78rem;color:var(--text-secondary);margin-top:6px}
+.risk-breakdown{display:flex;flex-direction:column;gap:14px}
+.breakdown-item{padding:16px 18px;border-radius:var(--radius-sm);background:var(--glass)}
+.breakdown-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.breakdown-label{font-size:0.85rem;font-weight:600}
+.breakdown-score{font-size:0.85rem;font-weight:700;font-family:var(--font-mono)}
+.breakdown-bar{height:5px;border-radius:3px;background:rgba(255,255,255,0.06);overflow:hidden}
+.breakdown-bar-fill{height:100%;border-radius:3px;transition:width 1s ease}
+.breakdown-detail{font-size:0.75rem;color:var(--text-muted);margin-top:8px;font-family:var(--font-mono)}
+
+.chart-container{position:relative;width:100%;height:300px}
+.chart-container canvas{width:100%!important;height:100%!important}
+.chart-row{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.chart-card{padding:24px}
+.chart-card h3{font-size:0.95rem;font-weight:600;margin-bottom:6px}
+.chart-card .chart-desc{font-size:0.78rem;color:var(--text-muted);margin-bottom:18px}
+
+.scenario-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:24px}
+.scenario-card{padding:18px;text-align:center;border-radius:var(--radius-sm);
+  background:var(--glass);border:1px solid var(--glass-border);transition:all .3s}
+.scenario-card:hover{transform:translateY(-3px);border-color:rgba(255,255,255,0.1)}
+.scenario-drop{font-size:1.5rem;font-weight:700;font-family:var(--font-mono);margin-bottom:10px}
+.scenario-loss{font-size:0.88rem;font-weight:600;margin-bottom:6px}
+.scenario-prob{font-size:0.78rem;color:var(--text-secondary);margin-bottom:4px}
+.scenario-level{display:inline-block;padding:3px 10px;border-radius:5px;font-size:0.7rem;
+  font-weight:700;text-transform:uppercase;letter-spacing:0.05em;margin-top:10px}
+
+.lev-meter{display:flex;align-items:center;gap:18px;padding:22px}
+.lev-bar{flex:1;height:14px;border-radius:7px;background:rgba(255,255,255,0.06);position:relative;overflow:hidden}
+.lev-fill{height:100%;border-radius:7px;transition:width 1s ease}
+.lev-label{font-size:0.88rem;font-weight:700;font-family:var(--font-mono);min-width:90px}
+.lev-zones{display:flex;justify-content:space-between;margin-top:10px;padding:0 22px}
+.lev-zone{font-size:0.7rem;color:var(--text-muted);font-family:var(--font-mono)}
+
+.corr-heatmap{overflow-x:auto}
+.corr-table{border-collapse:separate;border-spacing:3px;width:100%}
+.corr-table th,.corr-table td{padding:9px;text-align:center;font-size:0.78rem;
+  font-family:var(--font-mono);border-radius:5px;min-width:52px}
+.corr-table th{color:var(--text-secondary);font-weight:600}
+.corr-table td{font-weight:600;transition:all .3s}
+
+.trade-form{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:14px}
+.trade-result{margin-top:24px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.trade-metric{padding:18px;text-align:center;border-radius:var(--radius-sm);background:var(--glass)}
+.trade-metric .tm-label{font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;
+  letter-spacing:0.08em;font-family:var(--font-mono);margin-bottom:8px}
+.trade-metric .tm-value{font-size:1.15rem;font-weight:700;font-family:var(--font-mono)}
+
+.market-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.market-card{padding:22px}
+.market-card h4{font-size:0.8rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;
+  color:var(--text-muted);font-family:var(--font-mono);margin-bottom:14px}
+.market-card .mc-value{font-size:1.9rem;font-weight:700;font-family:var(--font-mono)}
+.market-card .mc-sub{font-size:0.8rem;color:var(--text-secondary);margin-top:6px}
+.market-card .mc-chart{height:65px;margin-top:14px}
+
+.watchlist-table{width:100%;border-collapse:collapse}
+.watchlist-table th{font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;
+  color:var(--text-muted);font-family:var(--font-mono);padding:12px 16px;text-align:left;
+  border-bottom:1px solid var(--glass-border)}
+.watchlist-table td{padding:14px 16px;font-size:0.88rem;border-bottom:1px solid rgba(255,255,255,0.03)}
+.watchlist-table tr:hover{background:var(--glass)}
+.watchlist-table .asset-name{font-weight:600}
+.watchlist-table .positive{color:var(--accent)}
+.watchlist-table .negative{color:var(--danger)}
+
+.heatmap-container{position:relative;padding:20px}
+.heatmap-row{display:flex;gap:4px;margin-bottom:4px}
+.heatmap-cell{flex:1;height:60px;border-radius:6px;display:flex;align-items:center;justify-content:center;
+  font-size:0.75rem;font-weight:600;font-family:var(--font-mono);transition:all 0.3s;cursor:default}
+.heatmap-cell:hover{transform:scale(1.05);z-index:10}
+
+.rec-list{display:flex;flex-direction:column;gap:14px}
+.rec-item{display:flex;gap:16px;padding:18px;border-radius:var(--radius-sm);
+  background:var(--glass);border:1px solid var(--glass-border);transition:all .3s}
+.rec-item:hover{border-color:rgba(255,255,255,0.1)}
+.rec-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;
+  justify-content:center;font-size:1.1rem;flex-shrink:0}
+.rec-icon.critical{background:var(--danger-glow);color:var(--danger)}
+.rec-icon.high{background:var(--warning-glow);color:var(--warning)}
+.rec-icon.medium{background:var(--info-glow);color:var(--info)}
+.rec-icon.always{background:var(--accent-glow);color:var(--accent)}
+.rec-content{flex:1}
+.rec-content .rec-priority{font-size:0.7rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:0.08em;font-family:var(--font-mono);margin-bottom:6px}
+.rec-content .rec-text{font-size:0.9rem;color:var(--text-secondary);line-height:1.7}
+
+.timeline-chart{height:320px;position:relative}
+
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.why-card{padding:32px;text-align:center}
+.why-card .why-icon{font-size:2.2rem;margin-bottom:18px}
+.why-card h3{font-size:1.1rem;font-weight:700;margin-bottom:12px}
+.why-card p{font-size:0.88rem;color:var(--text-secondary);line-height:1.7}
+
+footer{padding:48px 0;border-top:1px solid var(--glass-border);text-align:center;
+  font-size:0.8rem;color:var(--text-muted)}
+
+.loading{display:flex;align-items:center;justify-content:center;gap:10px;padding:48px;
+  color:var(--text-muted);font-size:0.88rem}
+.spinner{width:22px;height:22px;border:2px solid var(--glass-border);
+  border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.fade-in{opacity:0;transform:translateY(20px);transition:all .6s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+
+@media(max-width:1024px){
+  .metrics-row{grid-template-columns:repeat(2,1fr)}
+  .risk-display{grid-template-columns:1fr}
+  .chart-row{grid-template-columns:1fr}
+  .scenario-grid{grid-template-columns:repeat(2,1fr)}
+  .market-grid{grid-template-columns:1fr 1fr}
+  .why-grid{grid-template-columns:1fr}
+  .trade-result{grid-template-columns:1fr 1fr}
+}
+@media(max-width:768px){
+  .nav-links{display:none}
+  .mobile-menu-btn{display:block}
+  .nav-links.open{display:flex;position:absolute;top:100%;left:0;right:0;
+    flex-direction:column;background:rgba(6,8,13,0.95);padding:14px;
+    border-bottom:1px solid var(--glass-border)}
+  .form-row,.position-row{grid-template-columns:1fr 1fr;gap:10px}
+  .form-row .form-group:first-child,.position-row .form-group:first-child{grid-column:1/-1}
+  .trade-form{grid-template-columns:1fr 1fr}
+  .metrics-row{grid-template-columns:1fr 1fr}
+  .scenario-grid{grid-template-columns:1fr 1fr}
+  .market-grid{grid-template-columns:1fr}
+  .trade-result{grid-template-columns:1fr}
+  .hero h1{font-size:2.2rem}
+}
+@media(max-width:480px){
+  .metrics-row{grid-template-columns:1fr}
+  .form-row,.position-row{grid-template-columns:1fr}
+  .trade-form{grid-template-columns:1fr}
+  .scenario-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<!-- Navigation -->
+<nav>
+  <div class="container">
+    <div class="logo">
+      <div class="logo-icon">RG</div>
+      <span>Risk Guardian AI</span>
+    </div>
+    <div class="nav-links" id="navLinks">
+      <a href="#market" class="active">Market</a>
+      <a href="#portfolio">Portfolio</a>
+      <a href="#risk">Risk Analysis</a>
+      <a href="#charts">Charts</a>
+      <a href="#liquidation">Liquidation</a>
+      <a href="#watchlist">Watchlist</a>
+      <a href="#trade-review">Trade Review</a>
+    </div>
+    <button class="mobile-menu-btn" onclick="document.getElementById('navLinks').classList.toggle('open')">&#9776;</button>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-badge"><span class="pulse"></span> Live Risk Intelligence</div>
+    <h1>Protect Capital Before<br>Chasing Profit</h1>
+    <p>AI-powered crypto risk intelligence that identifies liquidation danger, portfolio weaknesses, leverage exposure, and market threats before they cost you money.</p>
+    <div class="metrics-row" id="heroMetrics">
+      <div class="glass metric-card">
+        <div class="metric-label">Portfolio Value</div>
+        <div class="metric-value" id="metricPortfolio">$0.00</div>
+        <div class="metric-sub" id="metricPortfolioSub">Loading demo portfolio...</div>
+      </div>
+      <div class="glass metric-card" id="metricRiskCard">
+        <div class="metric-label">Risk Score</div>
+        <div class="metric-value" id="metricRisk">--</div>
+        <div class="metric-sub" id="metricRiskSub">Analyzing...</div>
+      </div>
+      <div class="glass metric-card" id="metricSafetyCard">
+        <div class="metric-label">Safety Score</div>
+        <div class="metric-value green" id="metricSafety">--</div>
+        <div class="metric-sub" id="metricSafetySub">Analyzing...</div>
+      </div>
+      <div class="glass metric-card" id="metricMarketCard">
+        <div class="metric-label">Market Risk</div>
+        <div class="metric-value" id="metricMarket">--</div>
+        <div class="metric-sub" id="metricMarketSub">Loading...</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Live Market Dashboard -->
+<section class="section" id="market">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">// Live Market Intelligence</div>
+      <h2>Market Risk Dashboard</h2>
+      <p>Real-time market conditions with AI-generated interpretation of what current data means for your trading risk.</p>
+    </div>
+    <div class="market-grid" id="marketGrid">
+      <div class="glass market-card">
+        <h4>BTC Price</h4>
+        <div class="mc-value" id="btcPrice">--</div>
+        <div class="mc-sub" id="btcChange">--</div>
+      </div>
+      <div class="glass market-card">
+        <h4>ETH Price</h4>
+        <div class="mc-value" id="ethPrice">--</div>
+        <div class="mc-sub" id="ethChange">--</div>
+      </div>
+      <div class="glass market-card">
+        <h4>SOL Price</h4>
+        <div class="mc-value" id="solPrice">--</div>
+        <div class="mc-sub" id="solChange">--</div>
+      </div>
+      <div class="glass market-card">
+        <h4>Fear & Greed Index</h4>
+        <div class="mc-value" id="fgValue">--</div>
+        <div class="mc-sub" id="fgClass">Loading...</div>
+        <div class="mc-chart"><canvas id="fgChart"></canvas></div>
+      </div>
+      <div class="glass market-card">
+        <h4>BTC Funding Rate</h4>
+        <div class="mc-value" id="btcFunding">--</div>
+        <div class="mc-sub" id="btcFundingSub">Per 8h payment</div>
+      </div>
+      <div class="glass market-card">
+        <h4>AI Market Summary</h4>
+        <div id="marketInterpretation" style="font-size:0.85rem;color:var(--text-secondary);line-height:1.7;margin-top:4px">
+          Loading market data...
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Portfolio Input -->
+<section class="section" id="portfolio">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">// Portfolio Input</div>
+      <h2>Enter Your Positions</h2>
+      <p>Add your current crypto positions. The AI engine analyzes risk across leverage, concentration, volatility, correlation, and liquidity dimensions.</p>
+    </div>
+    <div class="glass" style="padding:28px">
+      <div id="positionsList"></div>
+      <div class="form-actions">
+        <button class="btn btn-ghost" onclick="addPosition()">+ Add Position</button>
+        <button class="btn btn-primary" onclick="runAnalysis()" id="analyzeBtn">Run AI Risk Analysis</button>
+        <button class="btn btn-ghost" onclick="loadSamplePortfolio()">Load Sample Portfolio</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Risk Analysis -->
+<section class="section" id="risk">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">// AI Risk Engine</div>
+      <h2>Risk Analysis Breakdown</h2>
+      <p>Every component of your risk score is calculated and explained. No black-box scores — full transparency.</p>
+    </div>
+    <div class="risk-display">
+      <div class="glass risk-gauge">
+        <div class="gauge-circle">
+          <svg viewBox="0 0 210 210">
+            <circle class="bg" cx="105" cy="105" r="90"/>
+            <circle class="fg" id="gaugeFg" cx="105" cy="105" r="90" stroke-dasharray="565" stroke-dashoffset="565"/>
+          </svg>
+          <div class="gauge-value">
+            <div class="score" id="riskScoreDisplay">--</div>
+            <div class="label">Risk Score / 100</div>
+          </div>
+        </div>
+        <div style="margin-top:18px;text-align:center">
+          <div style="font-size:0.8rem;color:var(--text-secondary)">Safety Score</div>
+          <div style="font-size:1.5rem;font-weight:700;font-family:var(--font-mono)" id="safetyScoreDisplay">--</div>
+        </div>
+      </div>
+      <div class="risk-breakdown" id="riskBreakdown">
+        <div class="loading"><div class="spinner"></div>Run analysis to see breakdown</div>
+      </div>
+    </div>
+    <div class="chart-row" style="margin-top:28px">
+      <div class="glass chart-card">
+        <h3>Asset Allocation</h3>
+        <div class="chart-desc">Capital distribution across your positions</div>
+        <div class="chart-container"><canvas id="allocationChart"></canvas></div>
+      </div>
+      <div class="glass chart-card">
+        <h3>Sector Exposure</h3>
+        <div class="chart-desc">Risk concentration by crypto sector</div>
+        <div class="chart-container"><canvas id="sectorChart"></canvas></div>
+      </div>
+    </div>
+    <div class="glass" style="padding:22px;margin-top:18px" id="diversificationInfo">
+      <div style="font-size:0.88rem;color:var(--text-secondary)">Run analysis to see diversification rating and concentration risk.</div>
+    </div>
+  </div>
+</section>
+
+<!-- Advanced Charts -->
+<section class="section" id="charts">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">// Professional Charts</div>
+      <h2>Advanced Real-Time Charts</h2>
+      <p>Multi-timeframe price action with volume, trend direction, and volatility visualization.</p>
+    </div>
+    <div class="glass" style="padding:24px">
+      <div style="display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;align-items:center">
+        <div style="display:flex;gap:6px" id="chartAssetBtns">
+          <button class="btn btn-sm btn-primary" onclick="switchChartAsset('BTC')">BTC</button>
+          <button class="btn btn-sm btn-ghost" onclick="switchChartAsset('ETH')">ETH</button>
+          <button class="btn btn-sm btn-ghost" onclick="switchChartAsset('SOL')">SOL</button>
+          <button class="btn btn-sm btn-ghost" onclick="switchChartAsset('BNB')">BNB</button>
+          <button class="btn btn-sm btn-ghost" onclick="switchChartAsset('XRP')">XRP</button>
+        </div>
+        <div style="display:flex;gap:6px;margin-left:auto" id="chartIntervalBtns">
+          <button class="btn btn-sm btn-ghost" onclick="switchChartInterval('1h')">1H</button>
+          <button class="btn btn-sm btn-primary" onclick="switchChartInterval('4h')">4H</button>
+          <button class="btn btn-sm btn-ghost" onclick="switchChartInterval('1d')">1D</button>
+          <button class="btn btn-sm btn-ghost" onclick="switchChartInterval('1w')">1W</button>
+          <button class="btn btn-sm btn-ghost" onclick="switchChartInterval('1M')">1M</button>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:2fr 1fr;gap:20px">
+        <div>
+          <div class="chart-container" style="height:380px"><canvas id="priceChart"></canvas></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div class="glass" style="padding:16px;flex:1">
+            <div style="font-size:0.72rem;color:var(--text-muted);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px">Trend Direction</div>
+            <div id="trendDirection" style="font-size:1.1rem;font-weight:700">Loading...</div>
+          </div>
+          <div class="glass" style="padding:16px;flex:1">
+            <div style="font-size:0.72rem;color:var(--text-muted);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px">Volatility (30d)</div>
+            <div id="volatilityDisplay" style="font-size:1.1rem;font-weight:700">Loading...</div>
+          </div>
+          <div class="glass" style="padding:16px;flex:1">
+            <div style="font-size:0.72rem;color:var(--text-muted);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px">Volume Trend</div>
+            <div id="volumeTrend" style="font-size:1.1rem;font-weight:700">Loading...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Liquidation Simulator -->
+<section class="section" id="liquidation">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">// Stress Test</div>
+      <h2>Liquidation Simulator & Heatmap</h2>
+      <p>See how your portfolio performs under market stress. Interactive visualization of liquidation zones, support/resistance, and risk levels.</p>
+    </div>
+    <div class="glass" style="padding:28px">
+      <div id="liquidationInsight" style="font-size:0.9rem;color:var(--text-secondary);margin-bottom:20px;line-height:1.7"></div>
+      <div class="scenario-grid" id="scenarioGrid"></div>
+      <div class="chart-container" style="height:260px;margin-top:24px">
+        <canvas id="liquidationChart"></canvas>
+      </div>
+    </div>
+    <!-- Liquidation Heatmap -->
+    <div class="glass" style="padding:28px;margin-top:22px">
+      <h3 style="font-size:0.95rem;font-weight:600;margin-bottom:6px">Liquidation Heatmap</h3>
+      <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:20px">Estimated liquidation zones based on leverage levels and current price</p>
+      <div class="heatmap-container" id="liquidationHeatmap"></div>
+    </div>
+    <!-- Leverage Monitor -->
+    <div class="glass" style="padding:28px;margin-top:22px">
+      <h3 style="font-size:0.95rem;font-weight:600;margin-bottom:6px">Leverage Danger Monitor</h3>
+      <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:18px">Current portfolio leverage exposure and danger level</p>
+      <div class="lev-meter">
+        <div class="lev-label" id="levLabel">--</div>
+        <div class="lev-bar"><div class="lev-fill" id="levFill" style="width:0%"></div></div>
+        <div style="font-size:0.88rem;font-family:var(--font-mono);font-weight:600;min-width:60px;text-align:right" id="levValue">--</div>
+      </div>
+      <div class="lev-zones">
+        <span class="lev-zone" style="color:var(--accent)">Safe (1-3x)</span>
+        <span class="lev-zone" style="color:var(--info)">Moderate (3-8x)</span>
+        <span class="lev-zone" style="color:var(--warning)">High (8-15x)</span>
+        <span class="lev-zone" style="color:var(--danger)">Extreme (15x+)</span>
+      </div>
+      <div id="leverageExplanation" style="margin-top:18px;font-size:0.88rem;color:var(--text-secondary);line-height:1.7"></div>
+    </div>
+    <!-- Correlation -->
+    <div class="glass" style="padding:28px;margin-top:22px">
+      <h3 style="font-size:0.95rem;font-weight:600;margin-bottom:6px">Correlation Risk Scanner</h3>
+      <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:18px">Assets that move together amplify risk during market stress</p>
+      <div class="corr-heatmap" id="corrHeatmap"></div>
+      <div id="corrWarning" style="margin-top:18px;padding:14px;border-radius:var(--radius-xs);
+        background:var(--warning-glow);border:1px solid rgba(255,165,2,0.2);
+        font-size:0.88rem;color:var(--warning);display:none"></div>
+    </div>
+  </div>
+</section>
+
+<!-- Opportunity Watchlist -->
+<section class="section" id="watchlist">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">// Opportunity Scanner</div>
+      <h2>Opportunity Watchlist</h2>
+      <p>Top 10 assets ranked by momentum, volume growth, and risk-adjusted opportunity score. Updates automatically.</p>
+    </div>
+    <div class="glass" style="padding:4px;overflow-x:auto">
+      <table class="watchlist-table" id="watchlistTable">
+        <thead>
+          <tr>
+            <th>Asset</th><th>Price</th><th>Momentum</th><th>Volume Growth</th>
+            <th>Volatility</th><th>Risk Level</th><th>Opportunity Score</th>
+          </tr>
+        </thead>
+        <tbody id="watchlistBody">
+          <tr><td colspan="7" class="loading"><div class="spinner"></div>Loading watchlist...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- AI Trade Risk Review -->
+<section class="section" id="trade-review">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">// Trade Copilot</div>
+      <h2>AI Trade Risk Review</h2>
+      <p>Before entering a trade, let the AI evaluate risk, suggest position sizing, stop-loss levels, and potential drawdown.</p>
+    </div>
+    <div class="glass" style="padding:28px">
+      <div class="trade-form">
+        <div class="form-group">
+          <label>Asset</label>
+          <select id="tradeAsset">
+            <option value="BTC">BTC</option><option value="ETH">ETH</option>
+            <option value="SOL">SOL</option><option value="BNB">BNB</option>
+            <option value="XRP">XRP</option><option value="DOGE">DOGE</option>
+            <option value="ADA">ADA</option><option value="LINK">LINK</option>
+            <option value="AVAX">AVAX</option><option value="SUI">SUI</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Direction</label>
+          <select id="tradeSide"><option value="LONG">Long</option><option value="SHORT">Short</option></select>
+        </div>
+        <div class="form-group">
+          <label>Leverage</label>
+          <input type="number" id="tradeLev" value="10" min="1" max="125">
+        </div>
+        <div class="form-group">
+          <label>Position Size ($)</label>
+          <input type="number" id="tradeSize" value="500" min="1">
+        </div>
+      </div>
+      <div class="form-actions" style="margin-top:18px">
+        <button class="btn btn-primary" onclick="reviewTrade()">Analyze Trade Risk</button>
+      </div>
+      <div id="tradeResult" style="display:none">
+        <div class="trade-result" id="tradeMetrics"></div>
+        <div id="tradeWarning" style="margin-top:18px;display:none"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Risk Timeline -->
+<section class="section" id="timeline" style="display:none">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">// Risk History</div>
+      <h2>Risk Score Timeline</h2>
+      <p>Track how your portfolio risk changes over time as market conditions shift.</p>
+    </div>
+    <div class="glass" style="padding:28px">
+      <div class="timeline-chart"><canvas id="timelineChart"></canvas></div>
+    </div>
+  </div>
+</section>
+
+<!-- AI Recommendations -->
+<section class="section" id="recommendations" style="display:none">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">// AI Copilot</div>
+      <h2>AI Risk Recommendations</h2>
+      <p>Actionable suggestions to reduce risk and protect your capital based on current portfolio analysis.</p>
+    </div>
+    <div class="rec-list" id="recList"></div>
+  </div>
+</section>
+
+<!-- Why This Matters -->
+<section class="section" id="why">
+  <div class="container">
+    <div class="section-header" style="text-align:center;max-width:100%">
+      <div class="section-tag" style="text-align:center">// Why This Matters</div>
+      <h2 style="text-align:center">Risk Management Is the Edge</h2>
+    </div>
+    <div class="why-grid">
+      <div class="glass why-card">
+        <div class="why-icon">&#9888;</div>
+        <h3>The Problem</h3>
+        <p>Most traders focus on profits and ignore risk. Over-leveraged positions, concentrated portfolios, and no stop-losses lead to catastrophic liquidations. 90% of traders lose money because they manage entry, not risk.</p>
+      </div>
+      <div class="glass why-card">
+        <div class="why-icon">&#9881;</div>
+        <h3>The Solution</h3>
+        <p>Crypto Risk Guardian AI identifies hidden dangers before you enter positions. It analyzes leverage exposure, correlation risk, concentration, volatility, and market conditions to give you a complete risk picture.</p>
+      </div>
+      <div class="glass why-card">
+        <div class="why-icon">&#9733;</div>
+        <h3>The Result</h3>
+        <p>Fewer liquidations. Better capital preservation. Smarter risk-adjusted decisions. Professional risk management that was once only available to institutional traders, now accessible to every crypto trader.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>Crypto Risk Guardian AI &mdash; Real-time data from Binance & Alternative.me. Risk analysis is for educational purposes. Not financial advice.</p>
+  </div>
+</footer>
+<script>
+// ===== STATE =====
+let positions = [];
+let analysisResult = null;
+let riskHistory = [];
+let charts = {};
+let chartAsset = 'BTC';
+let chartInterval = '4h';
+
+const ASSETS = ['BTC','ETH','SOL','BNB','XRP','DOGE','ADA','LINK','AVAX','SUI','APT','ARB','OP','INJ','TIA','SEI','PEPE','WIF'];
+
+// ===== INIT =====
+document.addEventListener('DOMContentLoaded', () => {
+  loadSamplePortfolio(); // Auto-load demo on page load
+  loadMarketData();
+  loadWatchlist();
+  loadChart();
+  setInterval(loadMarketData, 3000);
+  setInterval(loadWatchlist, 10000);
+  setInterval(loadChart, 15000);
+  initScrollAnimations();
+  initNavHighlight();
+});
+
+// ===== POSITION MANAGEMENT =====
+function addPosition(data) {
+  const pos = data || { asset: 'BTC', quantity: '', entryPrice: '', leverage: 1, side: 'LONG' };
+  positions.push(pos);
+  renderPositions();
+}
+
+function removePosition(idx) {
+  positions.splice(idx, 1);
+  renderPositions();
+}
+
+function renderPositions() {
+  const c = document.getElementById('positionsList');
+  c.innerHTML = positions.map((p, i) => `
+    <div class="position-row">
+      <div class="form-group">
+        <label>Asset</label>
+        <select onchange="updatePosition(${i},'asset',this.value)">
+          ${ASSETS.map(a => `<option value="${a}" ${p.asset===a?'selected':''}>${a}</option>`).join('')}
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Quantity</label>
+        <input type="number" step="any" value="${p.quantity}" placeholder="0.00"
+          onchange="updatePosition(${i},'quantity',parseFloat(this.value)||0)">
+      </div>
+      <div class="form-group">
+        <label>Entry Price ($)</label>
+        <input type="number" step="any" value="${p.entryPrice}" placeholder="0.00"
+          onchange="updatePosition(${i},'entryPrice',parseFloat(this.value)||0)">
+      </div>
+      <div class="form-group">
+        <label>Leverage</label>
+        <input type="number" value="${p.leverage}" min="1" max="125"
+          onchange="updatePosition(${i},'leverage',parseInt(this.value)||1)">
+      </div>
+      <div class="form-group">
+        <label>Direction</label>
+        <select onchange="updatePosition(${i},'side',this.value)">
+          <option value="LONG" ${p.side==='LONG'?'selected':''}>Long</option>
+          <option value="SHORT" ${p.side==='SHORT'?'selected':''}>Short</option>
+        </select>
+      </div>
+      <button class="remove-pos" onclick="removePosition(${i})" title="Remove">&times;</button>
+    </div>
+  `).join('');
+}
+
+function updatePosition(idx, field, value) { positions[idx][field] = value; }
+
+function loadSamplePortfolio() {
+  positions = [
+    { asset: 'BTC', quantity: 0.5, entryPrice: 62000, leverage: 5, side: 'LONG' },
+    { asset: 'ETH', quantity: 5, entryPrice: 1700, leverage: 3, side: 'LONG' },
+    { asset: 'SOL', quantity: 50, entryPrice: 68, leverage: 10, side: 'LONG' },
+    { asset: 'DOGE', quantity: 10000, entryPrice: 0.09, leverage: 5, side: 'LONG' },
+    { asset: 'LINK', quantity: 200, entryPrice: 8.5, leverage: 3, side: 'LONG' }
+  ];
+  renderPositions();
+  runAnalysis();
+}
+
+// ===== ANALYSIS =====
+async function runAnalysis() {
+  const valid = positions.filter(p => p.quantity > 0 && p.entryPrice > 0);
+  if (!valid.length) { alert('Add at least one position with quantity and entry price.'); return; }
+
+  const btn = document.getElementById('analyzeBtn');
+  btn.textContent = 'Analyzing...'; btn.disabled = true;
+
+  try {
+    const res = await fetch('/api/analyze', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ positions: valid })
+    });
+    analysisResult = await res.json();
+    if (analysisResult.error) throw new Error(analysisResult.error);
+
+    riskHistory.push({ time: Date.now(), riskScore: analysisResult.riskScore, safetyScore: analysisResult.safetyScore });
+    if (riskHistory.length > 50) riskHistory.shift();
+    updateUI();
+  } catch (e) {
+    console.error('Analysis error:', e);
+    alert('Analysis failed: ' + e.message);
+  } finally {
+    btn.textContent = 'Run AI Risk Analysis'; btn.disabled = false;
+  }
+}
+
+function updateUI() {
+  if (!analysisResult) return;
+  const r = analysisResult;
+
+  // Hero metrics
+  document.getElementById('metricPortfolio').textContent = '$' + formatNum(r.totalValue);
+  document.getElementById('metricPortfolioSub').textContent = `Leveraged: $${formatNum(r.totalLeveragedExposure)}`;
+
+  const riskEl = document.getElementById('metricRisk');
+  riskEl.textContent = r.riskScore + '/100';
+  riskEl.className = 'metric-value ' + (r.riskScore > 70 ? 'red' : r.riskScore > 45 ? 'yellow' : 'green');
+  document.getElementById('metricRiskSub').textContent = r.marketRiskLevel + ' risk level';
+  document.getElementById('metricRiskCard').className = 'glass metric-card ' + (r.riskScore > 70 ? 'danger' : r.riskScore > 45 ? 'warning' : '');
+
+  document.getElementById('metricSafety').textContent = r.safetyScore + '/100';
+  document.getElementById('metricSafetySub').textContent = r.safetyScore > 60 ? 'Well-managed' : r.safetyScore > 35 ? 'Needs attention' : 'Critical';
+
+  // Show sections
+  ['timeline','recommendations'].forEach(id => document.getElementById(id).style.display = '');
+
+  // Gauge
+  const circ = 2 * Math.PI * 90;
+  const offset = circ - (r.riskScore / 100) * circ;
+  const fg = document.getElementById('gaugeFg');
+  fg.style.strokeDashoffset = offset;
+  fg.style.stroke = r.riskScore > 70 ? 'var(--danger)' : r.riskScore > 45 ? 'var(--warning)' : 'var(--accent)';
+  document.getElementById('riskScoreDisplay').textContent = r.riskScore;
+  document.getElementById('safetyScoreDisplay').textContent = r.safetyScore;
+
+  // Breakdown
+  const bd = r.breakdown;
+  document.getElementById('riskBreakdown').innerHTML = Object.entries(bd).map(([key, val]) => {
+    const pct = (val.score / val.max) * 100;
+    const color = pct > 70 ? 'var(--danger)' : pct > 40 ? 'var(--warning)' : 'var(--accent)';
+    return `<div class="breakdown-item">
+      <div class="breakdown-header">
+        <span class="breakdown-label">${formatKey(key)} Risk</span>
+        <span class="breakdown-score" style="color:${color}">${val.score}/${val.max}</span>
+      </div>
+      <div class="breakdown-bar"><div class="breakdown-bar-fill" style="width:${pct}%;background:${color}"></div></div>
+      <div class="breakdown-detail">${val.detail}</div>
+    </div>`;
+  }).join('');
+
+  // Charts
+  renderAllocationChart(r.positions);
+  renderSectorChart(r.sectorExposure);
+
+  // Diversification
+  const top2 = r.positions.slice().sort((a,b) => b.weight - a.weight).slice(0, 2);
+  const top2Pct = Math.round(top2.reduce((s,p) => s + p.weight, 0) * 100);
+  document.getElementById('diversificationInfo').innerHTML = `
+    <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+      <span style="font-size:0.8rem;font-weight:700;color:var(--accent);font-family:var(--font-mono)">
+        DIVERSIFICATION: ${r.diversificationRating.toUpperCase()}
+      </span>
+      <span style="font-size:0.88rem;color:var(--text-secondary)">
+        ${top2Pct}% of capital is concentrated in ${top2.map(p=>p.asset).join(' and ')},
+        ${top2Pct > 50 ? 'creating significant concentration risk. Consider rebalancing.' : 'a reasonable distribution for a focused portfolio.'}
+      </span>
+    </div>`;
+
+  // Liquidation
+  renderScenarios(r.scenarios);
+  renderLiquidationChart(r.scenarios);
+  renderLiquidationHeatmap(r);
+  updateLeverageMonitor(r.avgLeverage, r.leverageLevel, r.positions);
+  renderCorrelationHeatmap(r.corrMatrix);
+  renderRecommendations(r.recommendations);
+  renderTimeline();
+}
+
+// ===== CHARTS =====
+function renderAllocationChart(positions) {
+  const ctx = document.getElementById('allocationChart').getContext('2d');
+  if (charts.allocation) charts.allocation.destroy();
+  const colors = ['#00d4aa','#3b82f6','#ffa502','#ff4757','#a855f7','#06b6d4','#ec4899','#84cc16','#f97316','#6366f1'];
+  charts.allocation = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: positions.map(p => p.asset),
+      datasets: [{ data: positions.map(p => Math.round(p.weight * 10000) / 100),
+        backgroundColor: colors.slice(0, positions.length), borderWidth: 0, hoverOffset: 8 }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, cutout: '65%',
+      plugins: {
+        legend: { position: 'right', labels: { color: '#8892a4', font: { size: 11, family: 'JetBrains Mono' }, padding: 10 } },
+        tooltip: { callbacks: { label: ctx => `${ctx.label}: ${ctx.parsed}%` } }
+      }
+    }
+  });
+}
+
+function renderSectorChart(sectorExposure) {
+  const ctx = document.getElementById('sectorChart').getContext('2d');
+  if (charts.sector) charts.sector.destroy();
+  const labels = Object.keys(sectorExposure);
+  const data = Object.values(sectorExposure).map(v => Math.round(v * 100) / 100);
+  const colors = ['#00d4aa','#3b82f6','#ffa502','#ff4757','#a855f7','#06b6d4','#ec4899'];
+  charts.sector = new Chart(ctx, {
+    type: 'bar',
+    data: { labels, datasets: [{ data, backgroundColor: colors.slice(0, labels.length), borderRadius: 6, borderSkipped: false }] },
+    options: {
+      responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => `${ctx.parsed.x.toFixed(1)}%` } } },
+      scales: {
+        x: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#4a5568', font: { family: 'JetBrains Mono', size: 10 }, callback: v => v + '%' } },
+        y: { grid: { display: false }, ticks: { color: '#8892a4', font: { family: 'JetBrains Mono', size: 11 } } }
+      }
+    }
+  });
+}
+
+function renderScenarios(scenarios) {
+  document.getElementById('scenarioGrid').innerHTML = scenarios.map(s => {
+    const color = s.riskLevel === 'EXTREME' ? 'var(--danger)' : s.riskLevel === 'HIGH' ? 'var(--warning)' : 'var(--info)';
+    const bg = s.riskLevel === 'EXTREME' ? 'var(--danger-glow)' : s.riskLevel === 'HIGH' ? 'var(--warning-glow)' : 'var(--info-glow)';
+    return `<div class="scenario-card">
+      <div class="scenario-drop" style="color:${color}">${s.drop}%</div>
+      <div class="scenario-loss" style="color:${color}">-$${formatNum(Math.abs(s.portfolioLoss))}</div>
+      <div class="scenario-prob">Portfolio: ${s.lossPct.toFixed(1)}%</div>
+      <div class="scenario-prob">Liq. probability: ${s.liquidationProb.toFixed(0)}%</div>
+      <div class="scenario-level" style="background:${bg};color:${color}">${s.riskLevel}</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('liquidationInsight').innerHTML =
+    `<strong>Analysis:</strong> With current leverage levels, a ${scenarios[1].drop}% market decline would result in a
+    ${scenarios[1].lossPct.toFixed(1)}% portfolio loss. ${scenarios[2].liquidationProb > 0 ?
+    `At -${scenarios[2].drop}%, liquidation risk becomes significant at ${scenarios[2].liquidationProb.toFixed(0)}%.` :
+    'No immediate liquidation risk at these levels.'}`;
+}
+
+function renderLiquidationChart(scenarios) {
+  const ctx = document.getElementById('liquidationChart').getContext('2d');
+  if (charts.liquidation) charts.liquidation.destroy();
+  charts.liquidation = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: scenarios.map(s => s.drop + '% drop'),
+      datasets: [
+        { label: 'Portfolio Loss %', data: scenarios.map(s => Math.abs(s.lossPct).toFixed(1)),
+          backgroundColor: scenarios.map(s => s.riskLevel==='EXTREME'?'rgba(255,71,87,0.6)':s.riskLevel==='HIGH'?'rgba(255,165,2,0.6)':'rgba(59,130,246,0.6)'),
+          borderRadius: 6, borderSkipped: false },
+        { label: 'Liquidation Prob %', data: scenarios.map(s => s.liquidationProb.toFixed(0)),
+          backgroundColor: 'rgba(255,255,255,0.08)', borderRadius: 6, borderSkipped: false }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { labels: { color: '#8892a4', font: { family: 'JetBrains Mono', size: 10 } } } },
+      scales: {
+        x: { grid: { display: false }, ticks: { color: '#8892a4', font: { family: 'JetBrains Mono', size: 11 } } },
+        y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#4a5568', font: { family: 'JetBrains Mono', size: 10 }, callback: v => v + '%' } }
+      }
+    }
+  });
+}
+
+function renderLiquidationHeatmap(r) {
+  if (!r.positions.length) return;
+  const btcPrice = r.priceData?.BTC?.price || 64000;
+  const levels = [];
+  for (let pct = -30; pct <= 10; pct += 2) {
+    levels.push({ price: btcPrice * (1 + pct / 100), change: pct });
+  }
+
+  let html = '<div style="font-size:0.75rem;color:var(--text-muted);margin-bottom:12px;font-family:var(--font-mono)">Price Level &rarr;</div>';
+  html += '<div class="heatmap-row">';
+  levels.forEach(l => {
+    const intensity = Math.abs(l.change);
+    let bg, textColor;
+    if (l.change >= 0) {
+      bg = `rgba(0,212,170,${Math.min(0.6, intensity * 0.06)})`;
+      textColor = 'var(--accent)';
+    } else if (intensity < 10) {
+      bg = `rgba(255,165,2,${Math.min(0.5, intensity * 0.05)})`;
+      textColor = 'var(--warning)';
+    } else {
+      bg = `rgba(255,71,87,${Math.min(0.7, intensity * 0.03)})`;
+      textColor = 'var(--danger)';
+    }
+    html += `<div class="heatmap-cell" style="background:${bg};color:${textColor}" title="Price: $${formatNum(l.price)} | Change: ${l.change}%">
+      ${l.change > 0 ? '+' : ''}${l.change}%<br><span style="font-size:0.65rem">$${formatNum(l.price)}</span>
+    </div>`;
+  });
+  html += '</div>';
+
+  // Show leverage lines
+  r.positions.forEach(p => {
+    const liqDist = (1 / p.leverage) * 100;
+    const liqPrice = p.side === 'LONG' ? p.currentPrice * (1 - liqDist / 100) : p.currentPrice * (1 + liqDist / 100);
+    html += `<div style="font-size:0.75rem;color:var(--text-secondary);margin-top:8px;font-family:var(--font-mono)">
+      ${p.asset} ${p.side} ${p.leverage}x — Liquidation at $${formatNum(liqPrice)} (${p.side === 'LONG' ? '-' : '+'}${liqDist.toFixed(0)}%)
+    </div>`;
+  });
+
+  document.getElementById('liquidationHeatmap').innerHTML = html;
+}
+
+function updateLeverageMonitor(avgLev, level, positions) {
+  const pct = Math.min(100, (parseFloat(avgLev) / 50) * 100);
+  const color = level === 'EXTREME' ? 'var(--danger)' : level === 'HIGH' ? 'var(--warning)' : level === 'MODERATE' ? 'var(--info)' : 'var(--accent)';
+  document.getElementById('levLabel').textContent = level;
+  document.getElementById('levLabel').style.color = color;
+  document.getElementById('levFill').style.width = pct + '%';
+  document.getElementById('levFill').style.background = `linear-gradient(90deg, var(--accent), ${color})`;
+  document.getElementById('levValue').textContent = avgLev + 'x';
+
+  const maxLev = Math.max(...positions.map(p => p.leverage));
+  document.getElementById('leverageExplanation').innerHTML =
+    `<strong>Current exposure:</strong> Average leverage is <strong>${avgLev}x</strong> with max <strong>${maxLev}x</strong> on a single position.
+    ${level === 'EXTREME' ? 'At this leverage, a <strong>' + (100/maxLev).toFixed(0) + '%</strong> adverse move triggers liquidation. This is extremely dangerous in crypto where 10-20% daily moves are common.' :
+      level === 'HIGH' ? 'A <strong>' + (100/maxLev).toFixed(0) + '%</strong> move against your max-leveraged position would trigger liquidation. Consider reducing to below 10x.' :
+      level === 'MODERATE' ? 'Leverage is moderate. Ensure stop-losses are set at ' + Math.max(2, (50/parseFloat(avgLev)).toFixed(0)) + '% to protect against sudden moves.' :
+      'Leverage is within safe bounds. Continue monitoring as market conditions change.'}`;
+}
+
+function renderCorrelationHeatmap(matrix) {
+  if (!matrix.length) return;
+  const assets = matrix.map(m => m.asset);
+  let html = '<table class="corr-table"><tr><th></th>';
+  assets.forEach(a => html += `<th>${a}</th>`);
+  html += '</tr>';
+  matrix.forEach(row => {
+    html += `<tr><th>${row.asset}</th>`;
+    assets.forEach(a => {
+      const v = row.correlations[a];
+      const bg = v >= 0.85 ? 'rgba(255,71,87,0.4)' : v >= 0.7 ? 'rgba(255,165,2,0.3)' : v >= 0.5 ? 'rgba(59,130,246,0.2)' : 'rgba(0,212,170,0.2)';
+      const color = v >= 0.85 ? '#ff4757' : v >= 0.7 ? '#ffa502' : v >= 0.5 ? '#3b82f6' : '#00d4aa';
+      html += `<td style="background:${bg};color:${color}">${v.toFixed(2)}</td>`;
+    });
+    html += '</tr>';
+  });
+  html += '</table>';
+  document.getElementById('corrHeatmap').innerHTML = html;
+
+  let highCorrs = [];
+  for (let i = 0; i < matrix.length; i++) {
+    for (let j = i + 1; j < matrix.length; j++) {
+      const v = matrix[i].correlations[matrix[j].asset];
+      if (v >= 0.8) highCorrs.push(`${matrix[i].asset}+${matrix[j].asset}: ${v.toFixed(2)}`);
+    }
+  }
+  const warn = document.getElementById('corrWarning');
+  if (highCorrs.length) {
+    warn.style.display = '';
+    warn.innerHTML = `&#9888; <strong>High correlation detected:</strong> ${highCorrs.join(', ')}. Your portfolio may decline simultaneously during market stress. Consider adding uncorrelated assets or stablecoins.`;
+  } else { warn.style.display = 'none'; }
+}
+
+function renderRecommendations(recs) {
+  const icons = { critical: '&#9888;', high: '&#9888;', medium: '&#9432;', always: '&#10003;' };
+  document.getElementById('recList').innerHTML = recs.map(r => `
+    <div class="rec-item">
+      <div class="rec-icon ${r.priority}">${icons[r.priority] || '&#9432;'}</div>
+      <div class="rec-content">
+        <div class="rec-priority" style="color:${r.priority==='critical'?'var(--danger)':r.priority==='high'?'var(--warning)':r.priority==='medium'?'var(--info)':'var(--accent)'}">${r.priority}</div>
+        <div class="rec-text">${r.text}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderTimeline() {
+  if (riskHistory.length < 2) return;
+  const ctx = document.getElementById('timelineChart').getContext('2d');
+  if (charts.timeline) charts.timeline.destroy();
+  charts.timeline = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: riskHistory.map(h => { const d = new Date(h.time); return d.getHours() + ':' + String(d.getMinutes()).padStart(2, '0'); }),
+      datasets: [
+        { label: 'Risk Score', data: riskHistory.map(h => h.riskScore),
+          borderColor: '#ff4757', backgroundColor: 'rgba(255,71,87,0.1)',
+          fill: true, tension: 0.4, pointRadius: 3, pointBackgroundColor: '#ff4757', borderWidth: 2 },
+        { label: 'Safety Score', data: riskHistory.map(h => h.safetyScore),
+          borderColor: '#00d4aa', backgroundColor: 'rgba(0,212,170,0.1)',
+          fill: true, tension: 0.4, pointRadius: 3, pointBackgroundColor: '#00d4aa', borderWidth: 2 }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { labels: { color: '#8892a4', font: { family: 'JetBrains Mono', size: 10 } } } },
+      scales: {
+        x: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#4a5568', font: { family: 'JetBrains Mono', size: 10 } } },
+        y: { min: 0, max: 100, grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#4a5568', font: { family: 'JetBrains Mono', size: 10 } } }
+      }
+    }
+  });
+}
+
+// ===== ADVANCED PRICE CHART =====
+async function loadChart() {
+  try {
+    const intervalMap = { '1h': '1h', '4h': '4h', '1d': '1d', '1w': '1w', '1M': '30d' };
+    const limitMap = { '1h': 168, '4h': 168, '1d': 90, '1w': 52, '1M': 30 };
+    const interval = intervalMap[chartInterval] || '4h';
+    const limit = limitMap[chartInterval] || 168;
+
+    const res = await fetch(`/api/klines/${chartAsset}?interval=${interval}&limit=${limit}`);
+    const klines = await res.json();
+    if (!klines.length || klines.error) return;
+
+    renderPriceChart(klines);
+    analyzeChartData(klines);
+  } catch (e) { console.error('Chart load error:', e); }
+}
+
+function renderPriceChart(klines) {
+  const ctx = document.getElementById('priceChart').getContext('2d');
+  if (charts.price) charts.price.destroy();
+
+  const labels = klines.map(k => {
+    const d = new Date(k.time);
+    return chartInterval === '1d' || chartInterval === '1w' ? d.toLocaleDateString('en', { month: 'short', day: 'numeric' }) :
+      d.getHours() + ':' + String(d.getMinutes()).padStart(2, '0');
+  });
+  const closes = klines.map(k => k.close);
+  const volumes = klines.map(k => k.volume);
+
+  // Calculate EMA20
+  const ema20 = [];
+  let ema = closes[0];
+  const mult = 2 / 21;
+  closes.forEach((c, i) => { ema = i === 0 ? c : (c - ema) * mult + ema; ema20.push(ema); });
+
+  // Calculate Bollinger Bands (20-period)
+  const bbUpper = [], bbLower = [];
+  for (let i = 0; i < closes.length; i++) {
+    if (i < 19) { bbUpper.push(null); bbLower.push(null); continue; }
+    const slice = closes.slice(i - 19, i + 1);
+    const mean = slice.reduce((a, b) => a + b) / 20;
+    const std = Math.sqrt(slice.reduce((s, v) => s + (v - mean) ** 2, 0) / 20);
+    bbUpper.push(mean + 2 * std);
+    bbLower.push(mean - 2 * std);
+  }
+
+  charts.price = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        { label: 'Price', data: closes, borderColor: '#00d4aa', backgroundColor: 'rgba(0,212,170,0.05)',
+          fill: true, tension: 0.1, pointRadius: 0, borderWidth: 2, order: 1 },
+        { label: 'EMA 20', data: ema20, borderColor: '#ffa502', borderWidth: 1.5, pointRadius: 0,
+          borderDash: [4, 4], fill: false, order: 2 },
+        { label: 'BB Upper', data: bbUpper, borderColor: 'rgba(255,255,255,0.1)', borderWidth: 1,
+          pointRadius: 0, fill: false, order: 3 },
+        { label: 'BB Lower', data: bbLower, borderColor: 'rgba(255,255,255,0.1)', borderWidth: 1,
+          pointRadius: 0, fill: '-1', backgroundColor: 'rgba(255,255,255,0.02)', order: 3 },
+        { label: 'Volume', data: volumes, type: 'bar', backgroundColor: 'rgba(255,255,255,0.04)',
+          yAxisID: 'volume', order: 4 }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, interaction: { intersect: false, mode: 'index' },
+      plugins: {
+        legend: { labels: { color: '#8892a4', font: { family: 'JetBrains Mono', size: 10 }, boxWidth: 12 } },
+        tooltip: { backgroundColor: 'rgba(6,8,13,0.9)', borderColor: 'rgba(255,255,255,0.1)', borderWidth: 1,
+          titleFont: { family: 'JetBrains Mono' }, bodyFont: { family: 'JetBrains Mono' } }
+      },
+      scales: {
+        x: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#4a5568', font: { family: 'JetBrains Mono', size: 9 }, maxTicksLimit: 12 } },
+        y: { position: 'right', grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#8892a4', font: { family: 'JetBrains Mono', size: 10 } } },
+        volume: { position: 'left', display: false, grid: { display: false } }
+      }
+    }
+  });
+}
+
+function analyzeChartData(klines) {
+  const closes = klines.map(k => k.close);
+  const volumes = klines.map(k => k.volume);
+  const latest = closes[closes.length - 1];
+  const prev = closes[closes.length - 2];
+
+  // Trend
+  const sma20 = closes.slice(-20).reduce((a, b) => a + b) / 20;
+  const sma50 = closes.slice(-50).reduce((a, b) => a + b) / Math.min(50, closes.length);
+  const trend = latest > sma20 && sma20 > sma50 ? 'Bullish' : latest < sma20 && sma20 < sma50 ? 'Bearish' : 'Neutral';
+  const trendColor = trend === 'Bullish' ? 'var(--accent)' : trend === 'Bearish' ? 'var(--danger)' : 'var(--warning)';
+  document.getElementById('trendDirection').innerHTML = `<span style="color:${trendColor}">${trend}</span>`;
+
+  // Volatility
+  const returns = [];
+  for (let i = 1; i < closes.length; i++) returns.push(Math.log(closes[i] / closes[i - 1]));
+  const std = Math.sqrt(returns.reduce((s, r) => s + r * r, 0) / returns.length);
+  const annualizedVol = (std * Math.sqrt(365 * 24) * 100).toFixed(1);
+  const volColor = annualizedVol > 80 ? 'var(--danger)' : annualizedVol > 50 ? 'var(--warning)' : 'var(--accent)';
+  document.getElementById('volatilityDisplay').innerHTML = `<span style="color:${volColor}">${annualizedVol}%</span>`;
+
+  // Volume trend
+  const recentVol = volumes.slice(-10).reduce((a, b) => a + b) / 10;
+  const olderVol = volumes.slice(-30, -10).reduce((a, b) => a + b) / 20;
+  const volChange = ((recentVol - olderVol) / olderVol * 100).toFixed(0);
+  const volTrendColor = volChange > 20 ? 'var(--accent)' : volChange < -20 ? 'var(--danger)' : 'var(--text-primary)';
+  document.getElementById('volumeTrend').innerHTML = `<span style="color:${volTrendColor}">${volChange > 0 ? '+' : ''}${volChange}%</span> vs prior period`;
+}
+
+function switchChartAsset(asset) {
+  chartAsset = asset;
+  document.querySelectorAll('#chartAssetBtns .btn').forEach(b => {
+    b.className = b.textContent === asset ? 'btn btn-sm btn-primary' : 'btn btn-sm btn-ghost';
+  });
+  loadChart();
+}
+
+function switchChartInterval(interval) {
+  chartInterval = interval;
+  document.querySelectorAll('#chartIntervalBtns .btn').forEach(b => {
+    b.className = b.textContent === interval ? 'btn btn-sm btn-primary' : 'btn btn-sm btn-ghost';
+  });
+  loadChart();
+}
+
+// ===== MARKET DATA =====
+async function loadMarketData() {
+  try {
+    const res = await fetch('/api/market-overview');
+    const data = await res.json();
+    if (data.error) return;
+
+    // Prices
+    ['BTC','ETH','SOL'].forEach(sym => {
+      if (data.prices[sym]) {
+        const p = data.prices[sym];
+        document.getElementById(sym.toLowerCase() + 'Price').textContent = '$' + formatNum(p.price);
+        const ch = p.change24h;
+        document.getElementById(sym.toLowerCase() + 'Change').textContent = (ch >= 0 ? '+' : '') + ch.toFixed(2) + '% (24h)';
+        document.getElementById(sym.toLowerCase() + 'Change').style.color = ch >= 0 ? 'var(--accent)' : 'var(--danger)';
+      }
+    });
+
+    // Fear & Greed
+    if (data.fearGreed) {
+      document.getElementById('fgValue').textContent = data.fearGreed.value;
+      document.getElementById('fgValue').style.color = data.fearGreed.value < 25 ? 'var(--danger)' : data.fearGreed.value < 45 ? 'var(--warning)' : data.fearGreed.value < 55 ? 'var(--text-primary)' : 'var(--accent)';
+      document.getElementById('fgClass').textContent = data.fearGreed.classification;
+      renderFGChart(data.fearGreed.history);
+    }
+
+    // Funding
+    ['BTC','ETH','SOL'].forEach(sym => {
+      const rate = data.funding[sym];
+      if (rate !== undefined) {
+        document.getElementById(sym.toLowerCase() + 'Funding').textContent = (rate * 100).toFixed(4) + '%';
+        document.getElementById(sym.toLowerCase() + 'Funding').style.color = rate > 0.001 ? 'var(--warning)' : rate > 0.0001 ? 'var(--text-primary)' : 'var(--accent)';
+        document.getElementById(sym.toLowerCase() + 'FundingSub').textContent =
+          rate > 0.001 ? 'Elevated — longs paying more' : rate < -0.0001 ? 'Negative — shorts paying' : 'Neutral range';
+      }
+    });
+
+    // Market risk
+    const fg = data.fearGreed?.value || 50;
+    const btcCh = data.prices?.BTC?.change24h || 0;
+    const mktRisk = fg < 20 ? 'EXTREME FEAR' : fg < 35 ? 'HIGH' : fg < 50 ? 'ELEVATED' : fg < 65 ? 'MODERATE' : 'LOW';
+    const mktEl = document.getElementById('metricMarket');
+    mktEl.textContent = mktRisk;
+    mktEl.className = 'metric-value ' + (fg < 25 ? 'red' : fg < 45 ? 'yellow' : 'green');
+    document.getElementById('metricMarketSub').textContent = `F&G: ${fg} | BTC: ${btcCh >= 0 ? '+' : ''}${btcCh.toFixed(1)}%`;
+
+    // AI Market Interpretation
+    updateMarketInterpretation(data);
+
+  } catch (e) { console.error('Market data error:', e); }
+}
+
+function renderFGChart(history) {
+  const ctx = document.getElementById('fgChart').getContext('2d');
+  if (charts.fg) charts.fg.destroy();
+  charts.fg = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: history.map((_, i) => i),
+      datasets: [{ data: history.map(h => h.value), borderColor: '#ffa502',
+        backgroundColor: 'rgba(255,165,2,0.1)', fill: true, tension: 0.4, pointRadius: 0, borderWidth: 1.5 }]
+    },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
+      scales: { x: { display: false }, y: { display: false, min: 0, max: 100 } } }
+  });
+}
+
+function updateMarketInterpretation(data) {
+  const fg = data.fearGreed?.value || 50;
+  const btcFunding = data.funding?.BTC || 0;
+  const btcChange = data.prices?.BTC?.change24h || 0;
+
+  let interpretation = '';
+  if (fg < 20) {
+    interpretation = `<strong>Extreme Fear (${fg}):</strong> Market sentiment is at panic levels. This can present contrarian buying opportunities, but also indicates elevated liquidation cascade risk. Funding rates at ${(btcFunding*100).toFixed(4)}% suggest ${btcFunding < 0 ? 'shorts are paying longs — bearish positioning dominates' : 'longs still paying despite fear — potential squeeze setup'}. <strong>For leveraged traders:</strong> reduce exposure and widen stop-losses.`;
+  } else if (fg < 40) {
+    interpretation = `<strong>Fear (${fg}):</strong> Market is cautious. BTC at ${btcChange >= 0 ? '+' : ''}${btcChange.toFixed(1)}% in 24h. Funding at ${(btcFunding*100).toFixed(4)}% is ${btcFunding > 0.0005 ? 'elevated — overconfident longs despite fear, a divergence worth watching' : 'relatively low, confirming bearish sentiment'}. <strong>For traders:</strong> Favor smaller positions with tight risk management.`;
+  } else if (fg < 60) {
+    interpretation = `<strong>Neutral (${fg}):</strong> Balanced market sentiment. Funding rates at ${(btcFunding*100).toFixed(4)}% are ${Math.abs(btcFunding) < 0.0003 ? 'near neutral — no strong directional bias' : 'showing slight directional pressure'}. <strong>For traders:</strong> Normal risk parameters apply. Monitor for sentiment shifts.`;
+  } else {
+    interpretation = `<strong>Greed (${fg}):</strong> Market is optimistic — this often precedes corrections. BTC ${btcChange >= 0 ? 'up' : 'down'} ${Math.abs(btcChange).toFixed(1)}% in 24h. Funding at ${(btcFunding*100).toFixed(4)}% ${btcFunding > 0.001 ? 'is very elevated — longs paying heavily, a reversal risk signal' : 'shows continued bullish conviction'}. <strong>For traders:</strong> Tighten stops, reduce leverage, take partial profits.`;
+  }
+  document.getElementById('marketInterpretation').innerHTML = interpretation;
+}
+
+// ===== WATCHLIST =====
+async function loadWatchlist() {
+  try {
+    const res = await fetch('/api/watchlist');
+    const data = await res.json();
+    if (!Array.isArray(data) || data.error) return;
+
+    document.getElementById('watchlistBody').innerHTML = data.map(w => {
+      const momColor = parseFloat(w.momentum) >= 0 ? 'var(--accent)' : 'var(--danger)';
+      const riskColor = w.riskLevel === 'High' ? 'var(--danger)' : w.riskLevel === 'Medium' ? 'var(--warning)' : 'var(--accent)';
+      const scoreColor = parseInt(w.opportunityScore) >= 60 ? 'var(--accent)' : parseInt(w.opportunityScore) >= 40 ? 'var(--warning)' : 'var(--danger)';
+      return `<tr>
+        <td class="asset-name">${w.asset}</td>
+        <td>$${formatNum(w.price)}</td>
+        <td style="color:${momColor}">${parseFloat(w.momentum) >= 0 ? '+' : ''}${w.momentum}%</td>
+        <td>${w.volumeGrowth}%</td>
+        <td>${w.volatility}%</td>
+        <td style="color:${riskColor}">${w.riskLevel}</td>
+        <td style="color:${scoreColor};font-weight:700">${w.opportunityScore}</td>
+      </tr>`;
+    }).join('');
+  } catch (e) { console.error('Watchlist error:', e); }
+}
+
+// ===== TRADE REVIEW =====
+async function reviewTrade() {
+  const asset = document.getElementById('tradeAsset').value;
+  const side = document.getElementById('tradeSide').value;
+  const leverage = parseInt(document.getElementById('tradeLev').value) || 1;
+  const positionSize = parseFloat(document.getElementById('tradeSize').value) || 0;
+
+  try {
+    const res = await fetch('/api/trade-review', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ asset, side, leverage, positionSize })
+    });
+    const data = await res.json();
+    if (data.error) throw new Error(data.error);
+
+    document.getElementById('tradeResult').style.display = '';
+    const riskColor = data.riskRating === 'EXTREME' ? 'var(--danger)' : data.riskRating === 'HIGH' ? 'var(--warning)' : data.riskRating === 'MODERATE' ? 'var(--info)' : 'var(--accent)';
+
+    document.getElementById('tradeMetrics').innerHTML = `
+      <div class="trade-metric"><div class="tm-label">Risk Rating</div><div class="tm-value" style="color:${riskColor}">${data.riskRating}</div></div>
+      <div class="trade-metric"><div class="tm-label">Current Price</div><div class="tm-value">$${data.currentPrice}</div></div>
+      <div class="trade-metric"><div class="tm-label">Max Drawdown (30d)</div><div class="tm-value" style="color:var(--danger)">${data.maxDrawdown}%</div></div>
+      <div class="trade-metric"><div class="tm-label">Stop Loss (${data.stopLossPct}%)</div><div class="tm-value" style="color:var(--warning)">$${data.stopLossPrice}</div></div>
+      <div class="trade-metric"><div class="tm-label">Take Profit (2:1 R/R)</div><div class="tm-value" style="color:var(--accent)">$${data.takeProfitPrice}</div></div>
+      <div class="trade-metric"><div class="tm-label">Liquidation Distance</div><div class="tm-value">${data.liquidationDistance}%</div></div>
+      <div class="trade-metric"><div class="tm-label">Position Size</div><div class="tm-value" style="font-size:0.82rem">${data.positionSizeRisk}</div></div>
+      <div class="trade-metric"><div class="tm-label">Reward:Risk</div><div class="tm-value" style="color:var(--accent)">${data.rewardRiskRatio}</div></div>
+      <div class="trade-metric"><div class="tm-label">Suggested Max Size</div><div class="tm-value">$${data.suggestedMaxSize}</div></div>
+    `;
+
+    const warnEl = document.getElementById('tradeWarning');
+    if (data.warning) {
+      warnEl.style.display = '';
+      warnEl.style.cssText = 'margin-top:18px;padding:14px;border-radius:8px;background:var(--danger-glow);border:1px solid rgba(255,71,87,0.2);font-size:0.88rem;color:var(--danger)';
+      warnEl.innerHTML = '&#9888; ' + data.warning;
+    } else { warnEl.style.display = 'none'; }
+  } catch (e) { alert('Trade review failed: ' + e.message); }
+}
+
+// ===== UTILITIES =====
+function formatNum(n) {
+  if (n >= 1e9) return (n / 1e9).toFixed(2) + 'B';
+  if (n >= 1e6) return (n / 1e6).toFixed(2) + 'M';
+  if (n >= 1e3) return (n / 1e3).toFixed(2) + 'K';
+  return n.toFixed(2);
+}
+function formatKey(k) { return k.charAt(0).toUpperCase() + k.slice(1); }
+
+function initScrollAnimations() {
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.section-header, .glass, .why-card').forEach(el => {
+    el.classList.add('fade-in'); observer.observe(el);
+  });
+}
+
+function initNavHighlight() {
+  const sections = document.querySelectorAll('section[id]');
+  const links = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 200) current = s.id; });
+    links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + current));
+  });
+}
+</script>
+</body>
+</html>
