@@ -1,4 +1,5 @@
 # Crypto Risk Guardian AI
+hackathon s2
 
 ## Overview
 Crypto Risk Guardian AI is an AI-powered risk intelligence platform that helps crypto traders identify liquidation risk, leverage exposure, portfolio weaknesses, and market threats before entering trades.
@@ -97,8 +98,6 @@ python3 scripts/publish.py ./deploy \
 
 Watch Crypto Risk Guardian AI in action:
 
-X Demo Video:
-https://x.com/i/status/2067549153761403123
 
 The demo showcases:
 - Portfolio Risk Analysis
